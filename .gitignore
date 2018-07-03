@@ -1,0 +1,7 @@
+.idea/
+.vagrant
+*.conf
+*.mp4
+*.ogv
+*.webm
+*.log
