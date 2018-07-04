@@ -1,0 +1,12 @@
+{
+    "name": "vagrant/web",
+    "authors": [
+        {
+            "name": "k.schepetkov",
+            "email": "k.schepetkov@yandex.ru"
+        }
+    ],
+    "require": {
+        "phalcon/devtools": "^3.4"
+    }
+}

@@ -1,11 +1,16 @@
 <?php
 
+namespace App\Controllers;
+
 use Phalcon\Mvc\Controller;
+use App\Models\Order;
 
 class IndexController extends Controller
 {
     public function indexAction()
     {
-        echo '<h1>Hello World! I Phalcon :)</h1>';
+
+        $ew = new Order();
+        echo '123';
     }
 }

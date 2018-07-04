@@ -5,6 +5,7 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\Application;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Url as UrlProvider;
+use Phalcon\Db\Adapter\Pdo\Mysql;
 
 // Определяем некоторые константы с абсолютными путями
 // для использования с локальными ресурасами
@@ -14,10 +15,10 @@ define('APP_PATH', BASE_PATH . '/app');
 // Регистрируем автозагрузчик
 $loader = new Loader();
 
-$loader->registerDirs(
+$loader->registerNamespaces(
     [
-        APP_PATH . '/controllers/',
-        APP_PATH . '/models/',
+        'App\Controllers' => APP_PATH . '/controllers/',
+        'App\Models' => APP_PATH . '/models/',
     ]
 );
 
@@ -45,6 +46,38 @@ $di->set(
         return $url;
     }
 );
+
+
+// Setup a base URI
+$di->set(
+    'db',
+    function () {
+        $connection = new Mysql([
+            "host"     => "localhost",
+            "dbname"   => "phalcon_db",
+            "port"     => 3306,
+            "username" => "root",
+            "password" => "passwort",
+        ]);
+        return $connection;
+    }
+);
+
+
+// Setup a base URI
+$di->set(
+    'router',
+    function () {
+        $router = new \Phalcon\Mvc\Router();
+        $router->add('/', [
+            'namespace' => 'App\Controllers',
+            'controller' => 'Index',
+            'action' => 'index',
+        ]);
+        return $router;
+    }
+);
+
 
 $application = new Application($di);
 

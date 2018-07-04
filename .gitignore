@@ -5,3 +5,5 @@
 *.ogv
 *.webm
 *.log
+vendor/
+config/
