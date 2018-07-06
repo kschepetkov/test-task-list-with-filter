@@ -2,24 +2,8 @@
 
 namespace App\Models;
 
-/**
- * @property OrderItem[] $items
- * @property Customer[] $customers
- */
-class Order extends \Phalcon\Mvc\Model
+class Customer extends \Phalcon\Mvc\Model
 {
-
-    /**
-     *
-     * @var integer
-     */
-    public $order_num;
-
-    /**
-     *
-     * @var string
-     */
-    public $order_date;
 
     /**
      *
@@ -27,6 +11,53 @@ class Order extends \Phalcon\Mvc\Model
      */
     public $cust_id;
 
+    /**
+     *
+     * @var string
+     */
+    public $cust_name;
+
+    /**
+     *
+     * @var string
+     */
+    public $cust_address;
+
+    /**
+     *
+     * @var string
+     */
+    public $cust_city;
+
+    /**
+     *
+     * @var string
+     */
+    public $cust_state;
+
+    /**
+     *
+     * @var string
+     */
+    public $cust_zip;
+
+    /**
+     *
+     * @var string
+     */
+    public $cust_country;
+
+    /**
+     *
+     * @var string
+     */
+    public $cust_contact;
+
+    /**
+     *
+     * @var string
+     */
+    public $cust_email;
 
     /**
      * Initialize method for model.
@@ -34,9 +65,8 @@ class Order extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("phalcon_db");
-        $this->setSource("Orders");
-        $this->hasMany('order_num', 'App\Models\OrderItem', 'order_num', ['alias' => 'items']);
-        $this->belongsTo('cust_id', 'App\Models\Customer', 'cust_id', ['alias' => 'customers']);
+        $this->setSource("Customers");
+        $this->hasMany('cust_id', 'App\Models\Order', 'cust_id', ['alias' => 'Orders']);
     }
 
     /**
@@ -46,14 +76,14 @@ class Order extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'Orders';
+        return 'Customers';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Order[]|Order|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Customer[]|Customer|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -64,10 +94,11 @@ class Order extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Order|\Phalcon\Mvc\Model\ResultInterface
+     * @return Customer|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
     }
+
 }

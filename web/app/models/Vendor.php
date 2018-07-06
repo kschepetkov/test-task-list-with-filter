@@ -2,31 +2,50 @@
 
 namespace App\Models;
 
-/**
- * @property OrderItem[] $items
- * @property Customer[] $customers
- */
-class Order extends \Phalcon\Mvc\Model
+class Vendor extends \Phalcon\Mvc\Model
 {
 
     /**
      *
-     * @var integer
+     * @var string
      */
-    public $order_num;
+    public $vend_id;
 
     /**
      *
      * @var string
      */
-    public $order_date;
+    public $vend_name;
 
     /**
      *
      * @var string
      */
-    public $cust_id;
+    public $vend_address;
 
+    /**
+     *
+     * @var string
+     */
+    public $vend_city;
+
+    /**
+     *
+     * @var string
+     */
+    public $vend_state;
+
+    /**
+     *
+     * @var string
+     */
+    public $vend_zip;
+
+    /**
+     *
+     * @var string
+     */
+    public $vend_country;
 
     /**
      * Initialize method for model.
@@ -34,9 +53,8 @@ class Order extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("phalcon_db");
-        $this->setSource("Orders");
-        $this->hasMany('order_num', 'App\Models\OrderItem', 'order_num', ['alias' => 'items']);
-        $this->belongsTo('cust_id', 'App\Models\Customer', 'cust_id', ['alias' => 'customers']);
+        $this->setSource("Vendors");
+        $this->hasMany('vend_id', 'App\Models\Products', 'vend_id', ['alias' => 'Products']);
     }
 
     /**
@@ -46,14 +64,14 @@ class Order extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'Orders';
+        return 'Vendors';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Order[]|Order|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Vendor[]|Vendor|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -64,10 +82,11 @@ class Order extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Order|\Phalcon\Mvc\Model\ResultInterface
+     * @return Vendor|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
     }
+
 }

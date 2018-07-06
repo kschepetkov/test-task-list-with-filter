@@ -12,6 +12,8 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 
+require_once BASE_PATH . "/vendor/autoload.php";
+
 // Регистрируем автозагрузчик
 $loader = new Loader();
 

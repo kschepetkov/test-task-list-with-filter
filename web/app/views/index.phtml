@@ -1,0 +1,210 @@
+<?
+use App\Models\Order;
+use App\Models\OrderItem;
+
+/**
+* @var Order[] $orders
+ */
+?>
+<html>
+    <head>
+        <title>Заказы</title>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css" />
+        <script src="/js/moment-with-locales.min.js"></script>
+        <script src="/js/bootstrap-datetimepicker.min.js"></script>
+    </head>
+    <body>
+        <div class="container theme-showcase">
+            <div class="panel panel-default">
+                <form action="/" method="get">
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Дата от: *</label>
+                                        <div class="form-group">
+                                            <div class="input-group" id="datetimepicker1">
+                                                <input name="data_from" type="text" class="form-control" value="<?= $this->request->getQuery("data_from") ?>"/>
+                                                <span class="input-group-addon">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Инициализация Bootstrap DateTimePicker -->
+                                    <script>
+                                        $(function () {
+                                            $('#datetimepicker1').datetimepicker({
+                                                locale: 'ru'
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Цена от: *</label>
+                                        <input name="price_from" type="text" class="form-control" value="<?= $this->request->getQuery("price_from") ?>" />
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="name">Страна</label>
+                                        <select name="country" class="form-control">
+                                            <option value="">Не указано</option>
+                                            <?php foreach ($customers as $customer) {?>
+                                                <option <?=($this->request->getQuery("country") == $customer->cust_country)? 'selected' : ''?>><?=$customer->cust_country?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Дата до: *</label>
+                                        <div class="form-group">
+                                            <div class="input-group" id="datetimepicker2">
+                                                <input name="data_to" type="text" class="form-control" value="<?= $this->request->getQuery("data_to") ?>"/>
+                                                <span class="input-group-addon">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Инициализация Bootstrap DateTimePicker -->
+                                    <script>
+                                        $(function () {
+                                            $('#datetimepicker2').datetimepicker({
+                                                locale: 'ru'
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Цена до: *</label>
+                                        <input name="price_to" type="text" class="form-control" value="<?= $this->request->getQuery("price_to") ?>" />
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="name">Производитель</label>
+                                        <select name="vend_name" class="form-control">
+                                            <option value="">Не указано</option>
+                                            <?php foreach ($vendors as $vendor) {?>
+                                                <option <?=($this->request->getQuery("vend_name") == $vendor->vend_name)? 'selected' : ''?>><?=$vendor->vend_name?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="name"></label>
+                                        <button name="submit" type="submit" value="search" class="btn btn-default">Поиск</button>
+                                        <a href="/" class="btn btn-default">Спросить</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="container theme-showcase">
+            <div class="panel panel-default">
+                <div class="panel-heading">Заказы</div>
+                <table class="table">
+                    <tr>
+                        <td>ИД заказа</td>
+                        <td>Дата заказа</td>
+                        <td>Общая сумма заказа</td>
+                        <td>Количество продуктов заказа</td>
+                    </tr>
+                    <?php if(count($page->items) == 0){?>
+                        <tr>
+                            <td colspan="4">
+                                По данном запросу ничего не найдено. Попробуйте изменить фильтр.
+                            </td>
+                        </tr>
+                    <?php }else{ ?>
+                        <?php foreach ($page->items as $order) {?>
+                            <tr>
+                                <td><?= $order->order_num ?></td>
+                                <td><?= $order->order_date ?></td>
+                                <td><?= $order->sum ?></td>
+                                <td><?= $order->count ?> <a class="btn btn-default send data">Посмотреть</a></td>
+                            </tr>
+                        <?php }?>
+                    <?php } ?>
+
+                </table>
+            </div>
+            <?php if($page->total_pages > '1'){?>
+                        <a href="<?= $current_url ?>">Первая</a>
+                        <a href="<?= $current_url ?>&page=<?= $page->before; ?>">Предыдущая</a>
+                        <a href="<?= $current_url ?>&page=<?= $page->next; ?>">Следующая</a>
+                        <a href="<?= $current_url ?>&page=<?= $page->last; ?>">Последняя</a><br>
+
+                        <?php echo "Вы на странице ", $page->current, " из ", $page->total_pages; ?>
+            <?php }?>
+
+        </div>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<td>--><?php //// $orders_item->sum(['column'=> 'item_price*quantity', 'conditions' => "order_num = $order->order_num",]) ?><!--</td>-->
+<!--            <td>--><?php //$order->Orderitems->sum(['column'     => 'item_price*quantity', 'conditions' => "order_num = $order->order_num",]) ?><!--</td>-->
+<?php
+//            array_reduce(
+//                $order->items,
+//                function(float $sum, OrderItem $item){
+//                    return $sum + $item->item_price * $item->quantity;
+//                },
+//                0
+//            )
+?>

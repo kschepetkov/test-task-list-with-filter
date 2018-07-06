@@ -2,11 +2,7 @@
 
 namespace App\Models;
 
-/**
- * @property OrderItem[] $items
- * @property Customer[] $customers
- */
-class Order extends \Phalcon\Mvc\Model
+class OrderItem extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -17,16 +13,27 @@ class Order extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var string
+     * @var integer
      */
-    public $order_date;
+    public $order_item;
 
     /**
      *
      * @var string
      */
-    public $cust_id;
+    public $prod_id;
 
+    /**
+     *
+     * @var integer
+     */
+    public $quantity;
+
+    /**
+     *
+     * @var double
+     */
+    public $item_price;
 
     /**
      * Initialize method for model.
@@ -34,9 +41,9 @@ class Order extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("phalcon_db");
-        $this->setSource("Orders");
-        $this->hasMany('order_num', 'App\Models\OrderItem', 'order_num', ['alias' => 'items']);
-        $this->belongsTo('cust_id', 'App\Models\Customer', 'cust_id', ['alias' => 'customers']);
+        $this->setSource("OrderItems");
+        $this->belongsTo('order_num', 'App\Models\Order', 'order_num', ['alias' => 'Orders']);
+        $this->belongsTo('prod_id', 'App\Models\Product', 'prod_id', ['alias' => 'Product']);
     }
 
     /**
@@ -46,14 +53,14 @@ class Order extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'Orders';
+        return 'OrderItems';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Order[]|Order|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return OrderItems[]|OrderItems|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -64,10 +71,15 @@ class Order extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Order|\Phalcon\Mvc\Model\ResultInterface
+     * @return OrderItems|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+
+    public static function sum($parameters = null)
+    {
+        return 'OrderItems';
     }
 }
