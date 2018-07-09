@@ -124,10 +124,41 @@ class IndexController extends Controller
 
     public function detailAction()
     {
-        $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
+        if($this->request->getPost('id')){
+            $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
+            $id = $this->request->getPost('id');
+            $mOrderItem = OrderItem::class;
+            $mProduct = Product::class;
 
-        $context = 'test';
-        $this->response->setContent($context);
-        return $this->response;
+            $builder = $this->modelsManager->createBuilder()
+                ->columns([
+                    "$mProduct.prod_id",
+                    "$mProduct.prod_name",
+                    "$mOrderItem.item_price",
+                    "$mOrderItem.quantity",
+                    "$mOrderItem.order_num"
+                ])
+                ->from($mOrderItem)
+                ->leftJoin($mProduct, "$mProduct.prod_id = $mOrderItem.prod_id")
+                ->andHaving("$mOrderItem.order_num = '$id'")
+                ->getQuery()
+                ->execute();
+
+            $Data = [];
+
+            foreach ($builder as $item) {
+                $Data[] = [
+                    "prod_id" => $item->prod_id,
+                    "prod_name" => $item->prod_name,
+                    "item_price" => $item->item_price,
+                    "quantity" => $item->quantity,
+                    "summ" => $item->item_price*$item->quantity,
+                    "order_num" => $item->order_num,
+                ];
+            }
+            return json_encode($Data);
+        }
+
+        return false;
     }
 }
