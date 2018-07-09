@@ -1,0 +1,1 @@
+{"virtualbox":{"/var/www/doc":{"guestpath":"/var/www/doc","hostpath":"/home/kschepetkov/virtual/phalcon.start","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/kschepetkov/virtual/phalcon.start","disabled":false,"__vagrantfile":true}}}
