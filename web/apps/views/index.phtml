@@ -162,13 +162,43 @@ use App\Models\OrderItem;
                 </table>
             </div>
             <?php if($page->total_pages > '1'){?>
-                        <a href="<?= $current_url ?>">Первая</a>
-                        <a href="<?= $current_url ?>&page=<?= $page->before; ?>">Предыдущая</a>
-                        <a href="<?= $current_url ?>&page=<?= $page->next; ?>">Следующая</a>
-                        <a href="<?= $current_url ?>&page=<?= $page->last; ?>">Последняя</a><br>
-                        <?php echo "Вы на странице ", $page->current, " из ", $page->total_pages; ?>
-            <?php }?>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <?php if($page->current != 1){?>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= $current_url ?>" aria-label="Первая">
+                                    <span aria-hidden="true">Первая</span>
+                                </a>
+                            </li>
 
+                            <li class="page-item">
+                                <a class="page-link" href="<?= $current_url ?>&page=<?= $page->before; ?>" aria-label="Предыдущая">
+                                    <span aria-hidden="true">   &laquo;   </span>
+                                </a>
+                            </li>
+                        <?php }?>
+
+                        <li class="page-item">
+                            <a class="page-link">
+                                <span aria-hidden="true">Вы на <?= $page->current ?> странице из <?= $page->total_pages ?></span>
+                            </a>
+                        </li>
+
+                        <?php if($page->current != $page->total_pages){?>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= $current_url ?>&page=<?= $page->next; ?>" aria-label="Следующая">
+                                    <span aria-hidden="true">   &raquo;   </span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= $current_url ?>&page=<?= $page->last; ?>" aria-label="Последняя">
+                                    <span aria-hidden="true">Последняя</span>
+                                </a>
+                            </li>
+                        <?php }?>
+                    </ul>
+                </nav>
+            <?php }?>
         </div>
 
         <div id="detailOrder" class="modal fade">

@@ -18,7 +18,7 @@ $(document).ready(function () {
                                         '<td>'+value.prod_name+'</td>' +
                                         '<td>'+value.item_price+'</td>' +
                                         '<td>'+value.quantity+'</td>' +
-                                        '<td>'+value.summ+'</td>' +
+                                        '<td>'+value.summ.toFixed(2)+'</td>' +
                                        '</tr>';
                         });
                         $(".content_table").append(content);
