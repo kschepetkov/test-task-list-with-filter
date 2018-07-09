@@ -46,46 +46,46 @@ class IndexController extends Controller
 
         if($this->request->getQuery("submit") == 'search'){
             $url .= 'submit=search';
-            if ($this->request->getQuery("data_from") && $this->request->getQuery("data_to")) {
-                $url .= '&data_from='.$this->request->getQuery("data_from").'&data_to='.$this->request->getQuery("data_to");
-                $data_from = (new \DateTime($this->request->getQuery("data_from")))->format('Y-m-d H:i');
-                $data_to = (new \DateTime($this->request->getQuery("data_to")))->format('Y-m-d H:i');
+            if ($this->request->getQuery("data_from", "string") && $this->request->getQuery("data_to", "string")) {
+                $url .= '&data_from='.$this->request->getQuery("data_from", "string").'&data_to='.$this->request->getQuery("data_to", "string");
+                $data_from = (new \DateTime($this->request->getQuery("data_from", "string")))->format('Y-m-d H:i');
+                $data_to = (new \DateTime($this->request->getQuery("data_to", "string")))->format('Y-m-d H:i');
                 $builder->andHaving(Order::class . ".order_date between '$data_from' AND '$data_to'");
-            } elseif ($this->request->getQuery("data_to")){
-                $url .= '&data_to='.$this->request->getQuery("data_from");
-                $data_to = (new \DateTime($this->request->getQuery("data_to")))->format('Y-m-d H:i');
+            } elseif ($this->request->getQuery("data_to", "string")){
+                $url .= '&data_to='.$this->request->getQuery("data_from", "string");
+                $data_to = (new \DateTime($this->request->getQuery("data_to", "string")))->format('Y-m-d H:i');
                 $builder->andHaving(Order::class . ".order_date <= '$data_to'");
-            } elseif ($this->request->getQuery("data_from")){
-                $url .= '&data_from='.$this->request->getQuery("data_to");
-                $data_from = (new \DateTime($this->request->getQuery("data_from")))->format('Y-m-d H:i');
+            } elseif ($this->request->getQuery("data_from", "string")){
+                $url .= '&data_from='.$this->request->getQuery("data_to", "string");
+                $data_from = (new \DateTime($this->request->getQuery("data_from", "string")))->format('Y-m-d H:i');
                 $builder->andHaving(Order::class . ".order_date >= '$data_from'");
             }
 
-            if ($this->request->getQuery("price_from") && $this->request->getQuery("price_to")) {
-                $price_from = $this->request->getQuery("price_from");
-                $price_to = $this->request->getQuery("price_to");
+            if ($this->request->getQuery("price_from", "int") && $this->request->getQuery("price_to", "int")) {
+                $price_from = $this->request->getQuery("price_from", "int");
+                $price_to = $this->request->getQuery("price_to", "int");
                 $url .= '&price_from='.$price_from.'&price_to='.$price_to;
                 $builder->andHaving("sum between '$price_from' AND '$price_to'");
-            } elseif ($this->request->getQuery("price_to")){
-                $price_to = $this->request->getQuery("price_to");
+            } elseif ($this->request->getQuery("price_to", "int")){
+                $price_to = $this->request->getQuery("price_to", "int");
                 $url .= '&price_to='.$price_to;
                 $builder->andHaving("sum <= '$price_to'");
-            } elseif ($this->request->getQuery("price_from")){
-                $price_from = $this->request->getQuery("price_from");
+            } elseif ($this->request->getQuery("price_from", "int")){
+                $price_from = $this->request->getQuery("price_from", "int");
                 $url .= '&price_from='.$price_from;
                 $builder->andHaving("sum >= '$price_from'");
             }
 
-            if ($this->request->getQuery("vend_name")){
-                $vend_name = $this->request->getQuery("vend_name");
+            if ($this->request->getQuery("vend_name", "string")){
+                $vend_name = $this->request->getQuery("vend_name", "string");
                 $url .= '&vend_name='.$vend_name;
                 $builder->leftJoin($mProduct, "$mProduct.prod_id = $mOrderItem.prod_id");
                 $builder->leftJoin($mVendor, "$mVendor.vend_id = $mProduct.vend_id");
                 $group[] = "$mVendor.vend_name";
                 $builder->andHaving("$mVendor.vend_name = '$vend_name'");
             }
-            if ($this->request->getQuery("country")){
-                $country = $this->request->getQuery("country");
+            if ($this->request->getQuery("country", "string")){
+                $country = $this->request->getQuery("country", "string");
                 $url .= '&country='.$country;
                 $builder->innerJoin($mCustomer, "$mCustomer.cust_id = $mOrder.cust_id");
                 $group[] = "$mCustomer.cust_country";

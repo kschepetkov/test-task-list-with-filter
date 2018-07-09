@@ -225,5 +225,142 @@ use App\Models\OrderItem;
                 </div>
             </div>
         </div>
+        <div class="container theme-showcase">
+            <p>
+                <a class="btn btn-lg btn-primary" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Добавить новый заказ
+                </a>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Покупатель</div>
+                    <table class="table">
+                        <tr>
+                            <td colspan="2">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">ФИО покупателя</label>
+                                        <input name="price_from" type="text" class="form-control" value="">
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Страна</label>
+                                        <input name="price_from" type="text" class="form-control" value="">
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Регион</label>
+                                        <input name="price_from" type="text" class="form-control" value="">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Город</label>
+                                        <input name="price_from" type="text" class="form-control" value="">
+                                    </div>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Адресс</label>
+                                        <input name="price_from" type="text" class="form-control" value="">
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Email</label>
+                                        <input name="price_from" type="text" class="form-control" value="">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table">
+                        <div class="panel-heading">Продукт</div>
+                        <tr>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Дата заказа</label>
+                                        <div class="form-group">
+                                            <div class="input-group" id="datetimepicker3">
+                                                <input name="data_to" type="text" class="form-control" value="<?= $this->request->getQuery("data_to") ?>"/>
+                                                <span class="input-group-addon">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Инициализация Bootstrap DateTimePicker -->
+                                    <script>
+                                        $(function () {
+                                            $('#datetimepicker3').datetimepicker({
+                                                locale: 'ru'
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Продукт</label>
+                                        <input name="price_from" type="text" class="form-control" value="">
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Колличесво</label>
+                                        <input name="price_from" type="text" class="form-control" value="">
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="form_name">Цена за шт.</label>
+                                        <input name="price_from" type="text" class="form-control" value="">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table">
+                        <div class="panel-heading"></div>
+                        <tr>
+                            <td colspan="6">
+                                <a data-id="" class="btn btn-default getAllData">Добавить еще продукт</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                Итоговая цена заказа:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <button name="submit" type="submit" value="search" class="btn btn-default btn-primary">Добавить</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
