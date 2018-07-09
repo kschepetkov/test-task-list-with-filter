@@ -1,19 +1,16 @@
 <?php
-
 use Phalcon\Loader;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Application;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Url as UrlProvider;
 use Phalcon\Db\Adapter\Pdo\Mysql;
-
 // Определяем некоторые константы с абсолютными путями
 // для использования с локальными ресурасами
 define('BASE_PATH', dirname(__DIR__));
-define('APP_PATH', BASE_PATH . '/app');
+define('APP_PATH', BASE_PATH . '/apps');
 
 require_once BASE_PATH . "/vendor/autoload.php";
-
 // Регистрируем автозагрузчик
 $loader = new Loader();
 
@@ -28,7 +25,6 @@ $loader->register();
 
 // Создаём контейнер DI
 $di = new FactoryDefault();
-
 // астраиваем компонент представлений
 $di->set(
     'view',
@@ -75,6 +71,11 @@ $di->set(
             'namespace' => 'App\Controllers',
             'controller' => 'Index',
             'action' => 'index',
+        ]);
+        $router->add('/api/detailOrder/', [
+            'namespace' => 'App\Controllers',
+            'controller' => 'Index',
+            'action' => 'detail',
         ]);
         return $router;
     }

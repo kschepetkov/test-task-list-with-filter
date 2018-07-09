@@ -9,6 +9,7 @@ use Phalcon\Mvc\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Vendor;
+use Phalcon\Mvc\View;
 use Phalcon\Paginator\Adapter\Model as PaginatorModel;
 use Phalcon\Http\Request;
 
@@ -16,9 +17,7 @@ class IndexController extends Controller
 {
     public function indexAction()
     {
-
-       $url = '/?';
-
+        $url = '/?';
 
         $mOrderItem = OrderItem::class;
         $mOrder = Order::class;
@@ -123,8 +122,12 @@ class IndexController extends Controller
         $this->view->current_url = $url;
     }
 
-    public function getCustomers($params)
+    public function detailAction()
     {
-        return Customer::findFirst($params);
+        $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
+
+        $context = 'test';
+        $this->response->setContent($context);
+        return $this->response;
     }
 }
